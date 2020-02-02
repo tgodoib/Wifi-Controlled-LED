@@ -1,10 +1,18 @@
 <html>
 
-<body>
-    <div id="page"></div>
+<head>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
     <script>
-        $("#page").load("https://cdn.jsdelivr.net/gh/ETblaky/RoomLED/src/web/index.html");
+        $.ajax({
+            url: "https://raw.githubusercontent.com/ETblaky/RoomLED/master/src/web/index.html",
+            type: 'GET',
+            success: function (data) {
+                var object = $('body').html(data).contents();
+            }
+        });
     </script>
 </body>
 
