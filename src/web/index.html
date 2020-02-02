@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ETblaky/RoomLED/src/web/style.css"> -->
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/gh/bebraw/colorjoe/dist/colorjoe.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/gh/ETblaky/RoomLED/src/web/script.js"></script> -->
-    <script src="script.js"></script>
 
 </head>
 
@@ -19,9 +16,18 @@
     <div class="block">
         <div id="picker"></div>
     </div>
-
-    <div id="presets" class="block"></div>
-
+    <div id="presets" class="block">
+        <p>Presets</p>
+        <div id="preset-box">
+            <a href="?p=RAINBOW">Rainbow</a>
+            <a href="?p=RAINBOW_STATIC">Rainbow Static</a>
+            <a href="?p=RAINBOW_MOVING">Rainbow Moving</a>
+            <a href="?p=COME_N_GO">Come N Go</a>
+            <a href="?p=BLINK">Blink</a>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 
 </html>

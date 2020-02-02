@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300&display=swap');
 body {
     background-color: rgb(68, 200, 143);
 }
@@ -7,9 +8,41 @@ body {
     height: 320px;
     margin-top: 30px;
     margin-left: 30px;
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.55);
     border-radius: 15px;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+#presets p {
+    padding: 15px 0 0 15px;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+#presets a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    width: 295px;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    line-height: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+#preset-box {
+    overflow-y: scroll;
+    height: 260px;
 }
 
 .colorPicker {
@@ -107,9 +140,6 @@ body {
 .colorPicker .oned .bg {
     -moz-border-radius: 15px;
     border-radius: 15px;
-}
-
-.colorPicker .oned .bg {
     background: -moz-linear-gradient(top, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 66%, #ff00ff 83%, #ff0000 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff0000), color-stop(17%, #ffff00), color-stop(33%, #00ff00), color-stop(50%, #00ffff), color-stop(66%, #0000ff), color-stop(83%, #ff00ff), color-stop(100%, #ff0000));
     background: -webkit-linear-gradient(top, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 66%, #ff00ff 83%, #ff0000 100%);
@@ -133,4 +163,27 @@ body {
     background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
     background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+    .block {
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+    #presets p {
+        color: white;
+    }
+    #presets a {
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .colorPicker .twod .pointer .shape2 {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .colorPicker .twod .pointer .shape1 {
+        border: 2px solid white;
+    }
+    .colorPicker .oned .pointer .shape {
+        border: 1px solid white;
+        box-shadow: inset 0px 0px 0px 1px white;
+    }
 }
