@@ -8,6 +8,7 @@
 #define NUM_LEDS 56
 
 //Presets
+#include <presets/Fading.cpp>
 #include <presets/Preset.cpp>
 #include <presets/blink.cpp>
 #include <presets/comeNgo.cpp>
@@ -15,7 +16,6 @@
 #include <presets/rainbow_moving.cpp>
 #include <presets/rainbow_static.cpp>
 #include <presets/solid.cpp>
-#include <presets/Fading.cpp>
 
 //Preset Instances
 Fading f = Fading();
@@ -28,6 +28,7 @@ Blink b = Blink();
 //Handlers
 #include <handlers/LedHandler.cpp>
 #include <handlers/MqttHandler.cpp>
+#include <handlers/OTAHandler.cpp>
 #include <handlers/WebHandler.cpp>
 
 //Led Handler
@@ -70,10 +71,9 @@ void connect_wifi() {
     Serial.println(WiFi.localIP());
 }
 
-void connect_mqtt() {
-    mqttClient.setServer("broker.mqtt-dashboard.com", 1883);
-    mqttClient.setCallback(MQTT::received);
-    Serial.println("MQTT is starting.");
+void setup_fastled() {
+    FastLED.addLeds<WS2811, DATA_PIN, BRG>(leds, NUM_LEDS);
+    FastLED.clear();
 }
 
 void start_webServer() {
@@ -81,9 +81,14 @@ void start_webServer() {
     Serial.println("Web Server listening.");
 }
 
-void setup_fastled() {
-    FastLED.addLeds<WS2811, DATA_PIN, BRG>(leds, NUM_LEDS);
-    FastLED.clear();
+void connect_mqtt() {
+    mqttClient.setServer("broker.mqtt-dashboard.com", 1883);
+    mqttClient.setCallback(MQTT::received);
+    Serial.println("MQTT is starting.");
+}
+
+void setup_ota() {
+    OTA::start();
 }
 
 void setup() {
@@ -93,8 +98,8 @@ void setup() {
     setup_fastled();
     start_webServer();
     connect_mqtt();
+    setup_ota();
 
-    //LED::setPreset(Preset::SOLID, CRGB(0, 255, 0));
     current_preset = Preset::SOLID;
     solid_color = CRGB(0, 255, 0);
 }
@@ -103,4 +108,5 @@ void loop() {
     WEB::loop();
     MQTT::loop();
     LED::loop();
+    OTA::loop();
 }

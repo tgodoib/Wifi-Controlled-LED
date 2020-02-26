@@ -19,7 +19,7 @@ public:
         }
 
         isOn = !isOn;
-        delay(66);
+        delay(50);
 
         return last;
     }
