@@ -5,8 +5,9 @@ body {
 
 .block {
     width: 355px;
-    height: 320px;
-    margin-bottom: 30px; 
+    height: 280px;
+    margin-top: 15px; 
+    margin-bottom: 15px; 
     margin-left: 30px;
     background-color: rgba(255, 255, 255, 0.55);
     border-radius: 15px;
@@ -41,8 +42,9 @@ body {
 }
 
 #preset-box {
+    margin-top: 5px;
     overflow-y: scroll;
-    height: 260px;
+    height: 210px;
 }
 
 .colorPicker {
@@ -52,7 +54,7 @@ body {
 .colorPicker .twod {
     position: absolute;
     left: 60px;
-    top: 45px;
+    top: 40px;
     border-radius: 15px;
     /* margin-top: 30px;
     margin-left: 30px; */
@@ -67,7 +69,7 @@ body {
 .colorPicker .oned {
     position: absolute;
     left: 315px;
-    top: 45px;
+    top: 40px;
 }
 
 .colorPicker .oned, .colorPicker .oned .bg {
