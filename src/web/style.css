@@ -6,7 +6,7 @@ body {
 .block {
     width: 355px;
     height: 320px;
-    margin-top: 30px;
+    margin-bottom: 30px; 
     margin-left: 30px;
     background-color: rgba(255, 255, 255, 0.55);
     border-radius: 15px;
@@ -52,7 +52,7 @@ body {
 .colorPicker .twod {
     position: absolute;
     left: 60px;
-    top: 75px;
+    top: 45px;
     border-radius: 15px;
     /* margin-top: 30px;
     margin-left: 30px; */
@@ -67,7 +67,7 @@ body {
 .colorPicker .oned {
     position: absolute;
     left: 315px;
-    top: 75px;
+    top: 45px;
 }
 
 .colorPicker .oned, .colorPicker .oned .bg {
