@@ -1,22 +1,16 @@
-#include "FastLED.h"
+#include "Presets.hpp"
 
 #ifndef RAINBOWSTATIC_CPP
 #define RAINBOWSTATIC_CPP
 
-class RainbowStatic {
-
-public:
-
-    CRGB last[56];
-
-    CRGB *update(int value) {
-
-        for (int i = 0; i < 56; i++) {
-            last[i] = CHSV(round(i * (255 / 55)), 255, value);
+void RainbowStatic::loop(void show(), int value) {
+    if(is_first_run) {
+        for(int i = 0; i < LED_COUNT; i++) {
+            leds[i] = CHSV(round(i * (255 / (LED_COUNT - 1))), 255, value);
         }
-    
-        return last;
+        show();
+        is_first_run = false;
     }
-};
+}
 
 #endif

@@ -1,42 +1,31 @@
-#include "Arduino.h"
-#include "FastLED.h"
+#include "Presets.hpp"
 
 #ifndef COMENGO_CPP
 #define COMENGO_CPP
 
-class ComeNGo {
+void ComeNGo::loop(void show(), int value) {
 
-private:
-    int loc = 0;
-    bool isGoing = true;
-
-public:
-    CRGB last[56];
-
-    CRGB *update(int value) {
-
-        if (loc > 55) {
-            loc = 54;
-            isGoing = false;
-        }
-        if (loc < 0) {
-            loc = 1;
-            isGoing = true;
-        }
-
-        for (int i = 0; i < 56; i++) {
-            if (i == loc) {
-                last[i] = CHSV(0, 0, value);
-            } else {
-                last[i] = CHSV(0, 0, 0);
-            }
-        }
-
-        loc += (isGoing ? 1 : -1);
-        delay(80);
-
-        return last;
+    if(loc > LED_COUNT - 1) {
+        loc = LED_COUNT - 2;
+        isGoing = false;
     }
-};
+    if(loc < 0) {
+        loc = 1;
+        isGoing = true;
+    }
+
+    for(int i = 0; i < LED_COUNT; i++) {
+        if(i == loc) {
+            leds[i] = CHSV(0, 0, value);
+        } else {
+            leds[i] = CHSV(0, 0, 0);
+        }
+    }
+
+    show();
+
+    loc += (isGoing ? 1 : -1);
+    delay(80);
+}
 
 #endif

@@ -1,33 +1,22 @@
-#include "Arduino.h"
-#include "FastLED.h"
+#include "Presets.hpp"
 
 #ifndef RAINBOWMOVING_CPP
 #define RAINBOWMOVING_CPP
 
-class RainbowMoving {
+void RainbowMoving::loop(void show(), int value) {
 
-private:
-    int step = 0;
-
-public:
-    CRGB last[56];
-
-    CRGB *update(int value) {
-
-        for (int i = 0; i < 56; i++) {
-            if (step == 256) {
-                step = 0;
-            }
-
-            last[i] = CHSV(round((i + step) * (255 / 80)), 255, value);
+    for(int i = 0; i < LED_COUNT; i++) {
+        if(step == 256) {
+            step = 0;
         }
 
-        step++;
-
-        delay(40);
-
-        return last;
+        leds[i] = CHSV(round((i + step) * (255 / (LED_COUNT * 1.5))), 255, value);
     }
-};
+
+    show();
+
+    step++;
+    delay(40);
+}
 
 #endif

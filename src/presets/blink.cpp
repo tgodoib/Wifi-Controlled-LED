@@ -1,28 +1,18 @@
-#include "Arduino.h"
-#include "FastLED.h"
+#include "Presets.hpp"
 
 #ifndef BLINK_CPP
 #define BLINK_CPP
 
-class Blink {
+void Blink::loop(void show(), int value) {
 
-private:
-    bool isOn = false;
-
-public:
-    CRGB last[56];
-
-    CRGB *update(int value) {
-
-        for (int i = 0; i < 56; i++) {
-            last[i] = CHSV(0, 0, isOn ? 0 : value);
-        }
-
-        isOn = !isOn;
-        delay(50);
-
-        return last;
+    for(int i = 0; i < LED_COUNT; i++) {
+        leds[i] = CHSV(0, 0, isOn ? 0 : value);
     }
-};
+
+    show();
+
+    isOn = !isOn;
+    delay(50);
+}
 
 #endif

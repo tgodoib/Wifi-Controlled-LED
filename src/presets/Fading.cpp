@@ -1,65 +1,43 @@
-#include "Arduino.h"
-#include "FastLED.h"
-#include "presets/Preset.cpp"
+#include "Presets.hpp"
 
 #ifndef FADING_CPP
 #define FADING_CPP
 
-extern CRGB leds[56];
-extern Preset current_preset;
-extern CRGB solid_color;
+Fading::Fading() {
+    count = 1;
+}
 
-class Fading {
+Fading::Fading(Preset p, CRGB *in, CRGB *fi) {
+    finalPreset = p;
 
-private:
-    Preset finalPreset;
-    CRGB init[56];
-    CRGB final[56];
-    int count;
-
-public:
-    explicit Fading() {
-        count = 1;
+    for(int i = 0; i < LED_COUNT; i++) {
+        init[i] = in[i];
+    }
+    for(int i = 0; i < LED_COUNT; i++) {
+        final[i] = fi[i];
     }
 
-    explicit Fading(Preset p, CRGB *in, CRGB *fi) {
-        finalPreset = p;
+    current_preset = Preset::FADING;
+    count = 1;
+}
 
-        for (int i = 0; i < 56; i++) {
-            init[i] = in[i];
-        }
-        for (int i = 0; i < 56; i++) {
-            final[i] = fi[i];
-        }
+void Fading::loop(void show()) {
 
-        current_preset = Preset::FADING;
-        count = 1;
-        Serial.println("Ended Setup");
+    if(count == 75) {
+        current_preset = finalPreset;
     }
 
-    CRGB *update(int value) {
-        CRGB colors[56];
-
-        if (count == 300) {
-            current_preset = finalPreset;
-        }
-
-        for (int i = 0; i < 56; i++) {
-
-            colors[i] = CRGB(
-                (int)floor(init[i].r + ((final[i].r - init[i].r) / 300.0f) * count),
-                (int)floor(init[i].g + ((final[i].g - init[i].g) / 300.0f) * count),
-                (int)floor(init[i].b + ((final[i].b - init[i].b) / 300.0f) * count));
-
-            //Serial.println("----");
-        }
-
-        count += 1;
-        delay(1);
-
-        //Serial.println("-----");
-        return colors;
+    for(int i = 0; i < LED_COUNT; i++) {
+        leds[i] = CRGB(
+            (int)floor(init[i].r + ((final[i].r - init[i].r) / 75.0f) * count),
+            (int)floor(init[i].g + ((final[i].g - init[i].g) / 75.0f) * count),
+            (int)floor(init[i].b + ((final[i].b - init[i].b) / 75.0f) * count));
     }
-};
+
+    show();
+
+    count += 1;
+    delay(1);
+}
 
 #endif

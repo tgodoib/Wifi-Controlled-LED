@@ -1,51 +1,49 @@
-#include "Arduino.h"
-#include <ArduinoOTA.h>
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
+#include "OTAHandler.hpp"
 
-class OTA {
+#ifndef OTAHANDLER_CPP
+#define OTAHANDLER_CPP
 
-public:
-    static void start() {
-        ArduinoOTA.onStart([]() {
-            String type;
-            if (ArduinoOTA.getCommand() == U_FLASH) {
-                type = "sketch";
-            } else {
-                type = "filesystem";
-            }
+void OTA::start() {
+    ArduinoOTA.onStart([]() {
+        String type;
+        if(ArduinoOTA.getCommand() == U_FLASH) {
+            type = "sketch";
+        } else {
+            type = "filesystem";
+        }
 
-            // NOTE: if updating FS this would be the place to unmount FS using FS.end()
-            Serial.println("Start updating " + type);
-        });
+        // NOTE: if updating FS this would be the place to unmount FS using FS.end()
+        LOG::info("Start updating " + type);
+    });
 
-        ArduinoOTA.onEnd([]() {
-            Serial.println("\nEnd");
-        });
+    ArduinoOTA.onEnd([]() {
+        LOG::info("\nEnd");
+    });
 
-        ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-            Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-        });
+    ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+        LOG::debug("Progress: " + String(progress / (total / 100)) + "\r");
+    });
 
-        ArduinoOTA.onError([](ota_error_t error) {
-            Serial.printf("Error[%u]: ", error);
-            if (error == OTA_AUTH_ERROR) {
-                Serial.println("Auth Failed");
-            } else if (error == OTA_BEGIN_ERROR) {
-                Serial.println("Begin Failed");
-            } else if (error == OTA_CONNECT_ERROR) {
-                Serial.println("Connect Failed");
-            } else if (error == OTA_RECEIVE_ERROR) {
-                Serial.println("Receive Failed");
-            } else if (error == OTA_END_ERROR) {
-                Serial.println("End Failed");
-            }
-        });
+    ArduinoOTA.onError([](ota_error_t error) {
+        LOG::error("Error: ");
+        if(error == OTA_AUTH_ERROR) {
+            LOG::error("Auth Failed");
+        } else if(error == OTA_BEGIN_ERROR) {
+            LOG::error("Begin Failed");
+        } else if(error == OTA_CONNECT_ERROR) {
+            LOG::error("Connect Failed");
+        } else if(error == OTA_RECEIVE_ERROR) {
+            LOG::error("Receive Failed");
+        } else if(error == OTA_END_ERROR) {
+            LOG::error("End Failed");
+        }
+    });
 
-        ArduinoOTA.begin();
-    }
+    ArduinoOTA.begin();
+}
 
-    static void loop() {
-        ArduinoOTA.handle();
-    }
-};
+void OTA::loop() {
+    ArduinoOTA.handle();
+}
+
+#endif

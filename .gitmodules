@@ -1,0 +1,3 @@
+[submodule "lib/Arduino-HomeKit-ESP8266"]
+	path = lib/Arduino-HomeKit-ESP8266
+	url = https://github.com/Mixiaoxiao/Arduino-HomeKit-ESP8266.git

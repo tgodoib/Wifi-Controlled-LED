@@ -1,32 +1,22 @@
-#include "Arduino.h"
-#include "FastLED.h"
+#include "Presets.hpp"
 
 #ifndef RAINBOW_CPP
 #define RAINBOW_CPP
 
+void Rainbow::loop(void show(), int value) {
 
-class Rainbow {
-
-public:
-
-    CHSV last[56];  
-
-    CRGB *update(int value) {
-
-        CRGB temp[56];
-
-        for (int i = 0; i < 56; i++) {
-            if (last[i].h < 255) {
-                temp[i] = CHSV(last[i].h += 1, 255, value);
-            } else {
-                temp[i] = CHSV(0, 255, value);
-            }
+    for(int i = 0; i < LED_COUNT; i++) {
+        if(last_hue > 255) {
+            last_hue = 0;
         }
 
-        delay(60);
-
-        return temp;
+        leds[i] = CHSV(last_hue, 255, value);
     }
-};
+
+    show();
+
+    last_hue++;
+    delay(60);
+}
 
 #endif

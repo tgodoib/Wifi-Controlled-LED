@@ -1,32 +1,20 @@
-#include "FastLED.h"
+#include "Presets.hpp"
 
 #ifndef SOLID_CPP
 #define SOLID_CPP
 
-class Solid {
+Solid::Solid() {
+}
 
-private:
-    CRGB color;
+Solid::Solid(CHSV c) {
+    color = c;
+    hsv2rgb_rainbow(color, rgb_color);
+}
 
-public:
-    explicit Solid(CHSV c) {
-        color = c;
-    }
-
-    explicit Solid(CRGB c) {
-        color = c;
-    }
-
-    CRGB last[56];
-
-    CRGB *update(int value) {
-
-        for (int i = 0; i < 56; i++) {
-            last[i] = color;
-        }
-
-        return last;
-    }
-};
+void Solid::loop(void show()) {
+    fill_solid(leds, LED_COUNT, rgb_color);
+    show();
+    should_update_strip = false;
+}
 
 #endif
