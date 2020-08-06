@@ -6,3 +6,6 @@
 
 /src/handlers/Spotify/SpotifyHandler.cpp
 /src/handlers/Spotify/Track.cpp
+
+/auth/
+/auth/*
