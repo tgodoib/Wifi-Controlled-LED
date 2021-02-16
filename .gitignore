@@ -7,5 +7,18 @@
 /src/handlers/Spotify/SpotifyHandler.cpp
 /src/handlers/Spotify/Track.cpp
 
-/src/auth/
-/src/auth/*
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+/src/auth/AmazonRootCA1.pem
+/src/auth/secrets.hpp
+/src/auth/certificate.pem.crt
+/src/auth/private.pem.key
+/src/auth/public.pem.key
