@@ -68,19 +68,25 @@ void setup() {
     LOG::start();
     connect_wifi();
     setup_fastled();
+    
+    IOS::start();
     WEB::start();
     MQTT::start();
     OTA::start();
     //TIME::start();
-    IOS::start();
 
-    LED::setSolid(CHSV(HSVHue::HUE_GREEN, 255, value));
+    LED::setSolid(CHSV(HSVHue::HUE_GREEN, 255, value), false);
 
     //Track tr = spotify.get_song_state();
     //spotify.load_features(tr);
+
+    LOG::info("Starting loop.");
+    LOG::line();
 }
 
 void loop() {
+    IOS::loop();
+
     WEB::loop();
     MQTT::loop();
 
@@ -94,6 +100,5 @@ void loop() {
 
     OTA::loop();
     LOG::loop();
-    //TIME::loop();
-    IOS::loop();
+    // TIME::loop();
 }

@@ -14,7 +14,7 @@ void WEB::start() {
     webServer.on("/callback", WEB::callback);
     webServer.begin();
 
-    LOG::info("Web Server listening.");
+    LOG::info("WEB: Ready.");
     LOG::line();
 }
 

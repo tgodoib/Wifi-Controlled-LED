@@ -20,6 +20,9 @@ void LOG::start() {
     for(int i = 0; i < 64; i++) {
         printLine[i] = std::pair<PrintType, String>(PrintType::NONE, "");
     }
+
+    LOG::info("LOG: Ready.");
+    LOG::line();
 }
 
 void LOG::loop() {

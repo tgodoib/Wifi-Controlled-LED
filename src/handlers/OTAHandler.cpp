@@ -40,6 +40,8 @@ void OTA::start() {
     });
 
     ArduinoOTA.begin();
+    LOG::info("OTA: Ready.");
+    LOG::line();
 }
 
 void OTA::loop() {

@@ -32,6 +32,9 @@ void IOS::start() {
     cha_hue.setter = IOS::set_hue;
 
     arduino_homekit_setup(&accessory_config);
+
+    LOG::info("IOS: Ready.");
+    LOG::line();
 }
 
 void IOS::loop() {
@@ -44,7 +47,7 @@ void IOS::loop() {
     }
     if(t > t_heap) {
         t_heap = t + 5 * 1000;
-        Serial.printf("Free heap: %d, HomeKit clients: %d \n", ESP.getFreeHeap(), arduino_homekit_connected_clients_count());
+        // Serial.printf("Free heap: %d, HomeKit clients: %d \n", ESP.getFreeHeap(), arduino_homekit_connected_clients_count());
     }
 }
 

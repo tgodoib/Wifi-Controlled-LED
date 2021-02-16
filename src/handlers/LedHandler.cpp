@@ -49,6 +49,8 @@ void LED::setPreset(Preset p, bool fade) {
             }
             should_update_strip = true;
             f = Fading(p, init, final);
+        } else {
+            FastLED.show();
         }
     }
 }

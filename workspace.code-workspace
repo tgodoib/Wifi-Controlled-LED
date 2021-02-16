@@ -4,13 +4,11 @@
 			"path": "."
 		},
 		{
-			"path": "C:\\Users\\tiago\\Documents\\PlatformIO\\Projects\\Test"
+			"name": "Test",
+			"path": "..\\Test"
 		},
 		{
-			"path": "..\\Esp8266 BeaconSpam PlatformIO"
-		},
-		{
-			"path": "..\\Microphone"
+			"path": "..\\..\\..\\JavaScript\\Alexa\\Alexa-LedStrip"
 		}
 	],
 	"settings": {
@@ -65,5 +63,53 @@
 			"string_view": "cpp",
 			"bitset": "cpp"
 		}
+	},
+	"launch": {
+		"configurations": [
+			{
+				"type": "aws-sam",
+				"request": "direct-invoke",
+				"name": "Alexa:app.handler (nodejs12.x)",
+				"invokeTarget": {
+					"target": "code",
+					"projectRoot": "ledStripFunction",
+					"lambdaHandler": "app.handler"
+				},
+				"lambda": {
+					"runtime": "nodejs12.x",
+					"payload": {},
+					"environmentVariables": {}
+				}
+			},
+			{
+				"type": "aws-sam",
+				"request": "direct-invoke",
+				"name": "Alexa-LedStrip:index.handler (nodejs8.10)",
+				"invokeTarget": {
+					"target": "code",
+					"projectRoot": "ETRoomFunc",
+					"lambdaHandler": "index.handler"
+				},
+				"lambda": {
+					"runtime": "nodejs8.10",
+					"payload": {},
+					"environmentVariables": {}
+				}
+			},
+			{
+				"type": "aws-sam",
+				"request": "direct-invoke",
+				"name": "Alexa-LedStrip:ledStripFunction",
+				"invokeTarget": {
+					"target": "template",
+					"templatePath": "template.yaml",
+					"logicalId": "ledStripFunction"
+				},
+				"lambda": {
+					"payload": {},
+					"environmentVariables": {}
+				}
+			}
+		]
 	}
 }
