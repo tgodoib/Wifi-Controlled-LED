@@ -56,7 +56,7 @@ void connect_wifi() {
 }
 
 void setup_fastled() {
-    FastLED.addLeds<WS2811, DATA_PIN, BRG>(leds, LED_COUNT);
+    FastLED.addLeds<WS2811, DATA_PIN, BRG>(LED::leds, LED_COUNT);
     FastLED.clear();
 }
 
@@ -65,17 +65,17 @@ void setup() {
 
     Serial.begin(115200);
 
-    LOG::start();
+    // LOG::start();
     connect_wifi();
+
     setup_fastled();
-    
+    LED::start();
+
     IOS::start();
     WEB::start();
     MQTT::start();
-    OTA::start();
+    // OTA::start();
     //TIME::start();
-
-    LED::setSolid(CHSV(HSVHue::HUE_GREEN, 255, value), false);
 
     //Track tr = spotify.get_song_state();
     //spotify.load_features(tr);
@@ -85,6 +85,15 @@ void setup() {
 }
 
 void loop() {
+    // int integer_variable = 200;
+    // Serial.println(String(sizeof(uint8_t(integer_variable))));
+    // EEPROM.put(1420, uint8_t(integer_variable));
+    // EEPROM.commit();
+    // Serial.print("EEPROM contents at Address=0xDDD is  : ");
+    // integer_variable = 0;
+    // EEPROM.get(1420, integer_variable);
+    // Serial.println(integer_variable);
+
     IOS::loop();
 
     WEB::loop();
@@ -98,7 +107,7 @@ void loop() {
         MDNS.announce();
     }
 
-    OTA::loop();
-    LOG::loop();
+    // OTA::loop();
+    // LOG::loop();
     // TIME::loop();
 }

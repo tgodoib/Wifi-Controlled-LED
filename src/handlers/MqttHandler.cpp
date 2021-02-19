@@ -13,6 +13,9 @@ PubSubClient mqttClient(espClient);
 time_t now;
 time_t nowish = 1510592825;
 
+int MQTT::reconnect_tries = 0;
+int MQTT::last_reconnect_time = 0;
+
 void MQTT::start() {
     MQTT::setup_ntp();
     espClient.setTrustAnchors(&cert);
@@ -23,7 +26,7 @@ void MQTT::start() {
 }
 
 void MQTT::loop() {
-    if(!mqttClient.connected()) {
+    if(!mqttClient.connected() && millis() - last_reconnect_time >= 6000) {
         reconnect_mqtt();
     }
     mqttClient.loop();
@@ -45,9 +48,10 @@ void MQTT::received(char *topic, byte *payload, unsigned int length) {
         JsonArray color = doc["color"];
         int h = color[0];
         int s = color[1];
-        int v = keep_value ? value : color[2];
+        int v = keep_value ? LED::value : color[2];
 
-        LED::setSolid(CHSV(h, s, v), fade);
+        // [=] or [&]
+        LED::setPreset(PresetType::SOLID, fade, [&]() { LED::p_solid.set_color(CHSV(h, s, v)); });
 
     } else if(String(topic).equals("Preset")) {
         StaticJsonDocument<16> doc;
@@ -60,7 +64,9 @@ void MQTT::received(char *topic, byte *payload, unsigned int length) {
 
         const char *preset = doc["preset"];
 
-        LED::setPreset(LED::str2enum(String(preset)));
+        std::map<PresetType, Preset *>::iterator it(LED::preset_list.begin());
+        std::advance(it, String(preset).toInt());
+        LED::setPreset(it->first);
 
     } else if(String(topic).equals("Value")) {
         StaticJsonDocument<16> doc;
@@ -115,6 +121,8 @@ String MQTT::error_code(int8_t MQTTErr) {
         return "Connect bad credentials";
     else if(MQTTErr == MQTT_CONNECT_UNAUTHORIZED)
         return "Connect unauthorized";
+
+    return "Unknown Error";
 }
 
 void MQTT::reconnect_mqtt() {
@@ -137,9 +145,17 @@ void MQTT::reconnect_mqtt() {
         }
 
     } else {
-        LOG::error(String("MQTT: ") + MQTT::error_code(mqttClient.state()));
-        LOG::error("Trying again in 5 seconds");
-        delay(5000);
+        reconnect_tries++;
+        if(reconnect_tries >= 10) {
+            LOG::error("Tried too many times. Reseting LED.");
+            wdt_disable();
+            wdt_enable(WDTO_15MS);
+            while(1) {}
+        } else {
+            LOG::error(String("MQTT: ") + MQTT::error_code(mqttClient.state()));
+            LOG::error("Trying again in 5 seconds");
+            last_reconnect_time = millis();
+        }
     }
 }
 

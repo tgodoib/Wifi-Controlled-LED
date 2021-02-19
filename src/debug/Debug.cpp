@@ -80,22 +80,22 @@ bool LOG::error(String s, bool isRetrying) {
 }
 
 bool LOG::sendMsg(String msg, PrintType type, String prefix, String colorCode, bool retrying) {
-    if(millis() - startTime > 2000) {
-        if(telnetClient && telnetClient.connected()) { // send data to Client
-            telnetClient.println(colorCode + prefix + msg + "\u001b[0m");
-            Serial.println(prefix + msg);
-            return true;
-        }
-    }
-    if(!retrying) {
-        Serial.println(prefix + msg);
-        for(int i = 0; i < 64; i++) {
-            if(printLine[i].first == PrintType::NONE) {
-                printLine[i] = std::pair<PrintType, String>(type, msg);
-                break;
-            }
-        }
-    }
+    // if(millis() - startTime > 2000) {
+    //     if(telnetClient && telnetClient.connected()) { // send data to Client
+    //         telnetClient.println(colorCode + prefix + msg + "\u001b[0m");
+    //         Serial.println(prefix + msg);
+    //         return true;
+    //     }
+    // }
+    // if(!retrying) {
+    Serial.println(prefix + msg);
+    // for(int i = 0; i < 64; i++) {
+    //     if(printLine[i].first == PrintType::NONE) {
+    //         printLine[i] = std::pair<PrintType, String>(type, msg);
+    //         break;
+    //     }
+    // }
+    // }
     return false;
 }
 

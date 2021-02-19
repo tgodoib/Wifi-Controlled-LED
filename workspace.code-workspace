@@ -4,11 +4,10 @@
 			"path": "."
 		},
 		{
-			"name": "Test",
-			"path": "..\\Test"
+			"path": "..\\..\\..\\JavaScript\\Alexa\\Alexa-LedStrip"
 		},
 		{
-			"path": "..\\..\\..\\JavaScript\\Alexa\\Alexa-LedStrip"
+			"path": "..\\LedMatrix-TestVersion"
 		}
 	],
 	"settings": {
@@ -61,7 +60,10 @@
 			"memory_resource": "cpp",
 			"optional": "cpp",
 			"string_view": "cpp",
-			"bitset": "cpp"
+			"bitset": "cpp",
+			"cstring": "cpp",
+			"iostream": "cpp",
+			"thread": "cpp"
 		}
 	},
 	"launch": {

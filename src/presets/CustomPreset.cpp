@@ -1,19 +1,15 @@
 #include "Presets.hpp"
+#include "handlers/LedHandler.hpp"
 
 #ifndef CUSTOM_CPP
 #define CUSTOM_CPP
 
-//Global Vars
-String custom_preset;
-
-extern CRGB leds[LED_COUNT];
-
-Custom::Custom(bool t) {
+CustomPreset::CustomPreset(bool t) {
     raw_preset = custom_preset;
     temporizer = t;
 }
 
-void Custom::start() {
+void CustomPreset::start() {
 
     String preset = !temporizer ? raw_preset : String("c1;0-0,0,0;200-255,255,255;1000-0,0,0;1200-255,255,255;2000-0,0,0;2200-255,255,255;3000-0,0,0;");
 
@@ -33,17 +29,17 @@ void Custom::start() {
     start_time = millis();
 }
 
-void Custom::loop(void show()) {
+void CustomPreset::loop() {
     unsigned long delay = millis() - start_time;
     if(amount > current_index) {
         if(delay >= time[current_index]) {
             LOG::debug(String(current_index) + String(". Delay: ") + String(delay));
             time[current_index + 1] -= delay - time[current_index];
             for(int i = 0; i < LED_COUNT; i++) {
-                leds[i] = color[current_index];
+                LED::leds[i] = color[current_index];
             }
 
-            show();
+            LED::show();
 
             current_index++;
         }

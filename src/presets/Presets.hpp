@@ -1,13 +1,12 @@
-#include "Arduino.h"
 #include "FastLED.h"
 #include "LedConstants.h"
-#include "Util.cpp"
 #include "debug/Debug.hpp"
+#include "Util.cpp"
 
 #ifndef PRESETS_HPP
 #define PRESETS_HPP
 
-enum class Preset {
+enum class PresetType {
     NONE,
     FADING,
     SOLID,
@@ -22,88 +21,98 @@ enum class Preset {
     FIRE
 };
 
-//Externed Vars
-extern CRGB leds[LED_COUNT];
-extern Preset current_preset;
-extern bool should_update_strip;
+class Preset {
+public:
+    PresetType type;
 
-//Fading
-class Fading {
+    virtual void start() = 0;
+    virtual void loop() = 0;
+};
+
+class FadingPreset : public Preset {
 
 private:
-    Preset finalPreset;
+    PresetType finalPreset;
     CRGB init[LED_COUNT];
     CRGB final[LED_COUNT];
     int count;
 
 public:
-    explicit Fading();
-    explicit Fading(Preset p, CRGB *in, CRGB *fi);
-    void loop(void show());
+    explicit FadingPreset();
+    explicit FadingPreset(PresetType p, CRGB *in, CRGB *fi);
+    void start();
+    void loop();
 };
 
-//Rainbow
-class Rainbow {
+class RainbowPreset : public Preset {
 
 private:
     int last_hue;
+    int last_refresh;
 
 public:
-    void loop(void show(), int value);
+    explicit RainbowPreset();
+    void start();
+    void loop();
 };
 
-//Rainbow Static
-class RainbowStatic {
-
+class RainbowStaticPreset : public Preset {
 public:
-    bool is_first_run = true;
-    void loop(void show(), int value);
+    explicit RainbowStaticPreset();
+    void start();
+    void loop();
 };
 
-//Rainbow Moving
-class RainbowMoving {
+class RainbowMovingPreset : public Preset {
 
 private:
     int step;
+    int last_refresh;
 
 public:
-    void loop(void show(), int value);
+    explicit RainbowMovingPreset();
+    void start();
+    void loop();
 };
 
-//Rainbow Blink
-class RainbowBlink {
+class RainbowBlinkPreset : public Preset {
 
 private:
     int color;
+    int last_refresh;
 
 public:
-    void loop(void show(), int value);
+    explicit RainbowBlinkPreset();
+    void start();
+    void loop();
 };
 
-//Come N Go
-class ComeNGo {
+class ComeNGoPreset : public Preset {
 
 private:
-    int loc = 0;
-    bool isGoing = true;
+    int loc;
+    bool isGoing;
+    int last_refresh;
 
 public:
-    void loop(void show(), int value);
+    explicit ComeNGoPreset();
+    void start();
+    void loop();
 };
 
-//Blink
-class Blink {
+class BlinkPreset : public Preset {
 
 private:
-    bool isOn = false;
+    bool isOn;
+    int last_refresh;
 
 public:
-    void loop(void show(), int value);
+    explicit BlinkPreset();
+    void start();
+    void loop();
 };
 
-//Custom
-extern String custom_preset;
-class Custom {
+class CustomPreset : public Preset {
 
 private:
     String raw_preset;
@@ -116,35 +125,36 @@ private:
     unsigned int current_index = 0;
 
 public:
-    explicit Custom(bool t = true);
+    String custom_preset;
+    explicit CustomPreset(bool t = true);
     void start();
-    void loop(void show());
+    void loop();
 };
 
-//Solid
-class Solid {
+class SolidPreset : public Preset {
 
 private:
-    CRGB rgb_color;
+    CHSV solid_color;
 
 public:
-    CHSV color;
-
-    explicit Solid();
-    explicit Solid(CHSV c);
-    void loop(void show());
+    explicit SolidPreset(CHSV c = CHSV(HUE_GREEN, 255, 255));
+    void set_color(CHSV c);
+    CHSV get_color();
+    void start();
+    void loop();
 };
 
-//Fire
 DECLARE_GRADIENT_PALETTE(fire_gradient);
-class Fire {
+class FirePreset : public Preset {
 
 private:
     CRGBPalette16 firePalette = fire_gradient;
     int y_offset;
 
 public:
-    void loop(void show(), float value);
+    explicit FirePreset();
+    void start();
+    void loop();
 };
 
 #endif

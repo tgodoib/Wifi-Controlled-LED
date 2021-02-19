@@ -4,8 +4,8 @@
 #ifndef HOME_KIT_HANDLER_HPP
 #define HOME_KIT_HANDLER_HPP
 
-// static uint32_t t_report;
-// static uint32_t t_heap;
+static uint32_t t_report;
+static uint32_t t_heap;
 
 class IOS {
 

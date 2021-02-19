@@ -37,7 +37,9 @@ public:
     static void reconnect_mqtt();
 
 private:
+    static int reconnect_tries;
     static void setup_ntp();
+    static int last_reconnect_time;
 };
 
 #endif

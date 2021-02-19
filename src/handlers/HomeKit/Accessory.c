@@ -2,7 +2,7 @@
 #include <homekit/homekit.h>
 
 void my_accessory_identify(homekit_value_t _value) {
-    //TODO: Blick Led for Identification
+    //TODO: Blink Led for Identification
 }
 
 homekit_characteristic_t cha_on = HOMEKIT_CHARACTERISTIC_(ON, false);

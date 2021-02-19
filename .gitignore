@@ -22,3 +22,4 @@
 /src/auth/certificate.pem.crt
 /src/auth/private.pem.key
 /src/auth/public.pem.key
+/workspace.code-workspace
